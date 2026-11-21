@@ -24,10 +24,17 @@ const createNotesTable = `
 `;
 
 const initializeDatabase = async () => {
-    await pool.query(createUsersTable);
-    console.log("Users table created successfully!");
-    await pool.query(createNotesTable);
-    console.log("Notes table created successfully!");
+    try {
+        await pool.query(createUsersTable);
+        console.log("Users table created successfully!");
+
+        await pool.query(createNotesTable);
+        console.log("Notes table created successfully!");
+
+    } catch (error) {
+        console.error("Database initialization failed:", error.message);
+        throw error;
+    }
 };
 
 module.exports = initializeDatabase;

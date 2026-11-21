@@ -26,9 +26,17 @@ const startServer = async () => {
     try {
         await initializeDatabase();
 
-        app.listen(PORT, () => {
+        const server = app.listen(PORT);
+
+        server.on("listening", () => {
             console.log(`Server running on port ${PORT}`);
         });
+
+        server.on("error", (error) => {
+            console.error("Server startup failed:", error.message);
+            process.exit(1);
+        });
+
     } catch (error) {
         console.error("Failed to initialize database:", error.message);
         process.exit(1);
